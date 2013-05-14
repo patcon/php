@@ -49,7 +49,7 @@ action :install do
 end
 
 action :upgrade do
-  if @current_resource.version != candidate_version
+  if Gem::Version.new(@current_resource.version) < Gem::Version.new(candidate_version)
     orig_version = @current_resource.version || "uninstalled"
     description = "upgrade package #{@new_resource} version from #{orig_version} to #{candidate_version}"
     converge_by(description) do
